@@ -1,0 +1,58 @@
+name: project-matrix-ci
+on:
+  push:
+    paths:
+      - 'projects/**'
+      - '.github/workflows/project-matrix-ci.yml'
+  pull_request:
+    paths:
+      - 'projects/**'
+      - '.github/workflows/project-matrix-ci.yml'
+
+jobs:
+  deterministic-projects:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - hybrid-rag
+          - eval-pipeline
+          - llm-gateway
+          - semantic-cache
+          - small-model
+          - structured-extractor
+          - prompt-registry
+          - hallucination-detector
+          - voice-agent
+          - document-pipeline
+          - observability
+          - local-llm
+          - approval-agent
+          - red-team
+          - synthetic-data
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Execute demo
+        working-directory: projects/${{ matrix.project }}
+        run: python demo.py
+      - name: Run contract test
+        working-directory: projects/${{ matrix.project }}
+        run: python -m unittest -v test_demo.py
+
+  aws-genai:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/bedrock-sagemaker-genai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: ruff check .
+      - run: pytest -q
