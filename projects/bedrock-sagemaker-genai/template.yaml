@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Bedrock and SageMaker Generative AI control plane
+Parameters:
+  BedrockModelId:
+    Type: String
+    Default: amazon.nova-lite-v1:0
+  SageMakerEndpointName:
+    Type: String
+    Default: ''
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+      DockerTag: python3.12-v1
+    Properties:
+      PackageType: Image
+      MemorySize: 1024
+      Timeout: 60
+      Environment:
+        Variables:
+          BEDROCK_MODEL_ID: !Ref BedrockModelId
+          SAGEMAKER_ENDPOINT_NAME: !Ref SageMakerEndpointName
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: bedrock:InvokeModel
+              Resource: !Sub arn:${AWS::Partition}:bedrock:${AWS::Region}::foundation-model/${BedrockModelId}
+            - Effect: Allow
+              Action: sagemaker:InvokeEndpoint
+              Resource: !Sub arn:${AWS::Partition}:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint/${SageMakerEndpointName}
+      Events:
+        Api:
+          Type: HttpApi
+Outputs:
+  ApiUrl:
+    Value: !Sub https://${ServerlessHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}
+
