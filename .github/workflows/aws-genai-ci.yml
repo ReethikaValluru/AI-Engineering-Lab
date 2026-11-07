@@ -1,0 +1,24 @@
+name: aws-genai-ci
+on:
+  push:
+    paths:
+      - 'projects/bedrock-sagemaker-genai/**'
+      - '.github/workflows/aws-genai-ci.yml'
+  pull_request:
+    paths:
+      - 'projects/bedrock-sagemaker-genai/**'
+      - '.github/workflows/aws-genai-ci.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/bedrock-sagemaker-genai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: ruff check .
+      - run: pytest -q
