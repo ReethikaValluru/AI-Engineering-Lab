@@ -9,6 +9,12 @@ def _distribution(values: list[float], cuts: list[float]) -> list[float]:
     return [max(c / total, 1e-6) for c in counts]
 
 def population_stability_index(reference: list[float], current: list[float], bins: int = 5) -> float:
+    if not reference or not current:
+        raise ValueError("Both sample windows must contain observations.")
+    if not isinstance(bins, int) or isinstance(bins, bool) or bins < 2:
+        raise ValueError("bins must be an integer of at least 2.")
+    if not all(map(math.isfinite, reference)) or not all(map(math.isfinite, current)):
+        raise ValueError("All observations must be finite.")
     ordered = sorted(reference)
     cuts = [ordered[min(int(len(ordered) * i / bins), len(ordered) - 1)] for i in range(1, bins)]
     expected, actual = _distribution(reference, cuts), _distribution(current, cuts)
