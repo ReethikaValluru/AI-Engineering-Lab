@@ -1,6 +1,6 @@
 # AI Engineering Lab
 
-Sixteen executable, production-oriented AI engineering reference systems spanning retrieval, evaluation, inference, safety, observability, agentic orchestration, multimodal processing, dataset engineering, and AWS-native Generative AI.
+Twenty-one executable, production-oriented AI engineering reference systems spanning retrieval, evaluation, inference, safety, observability, agentic orchestration, multimodal processing, dataset engineering, model monitoring, and AWS-native Generative AI.
 
 ## Project catalog
 
@@ -22,6 +22,11 @@ Sixteen executable, production-oriented AI engineering reference systems spannin
 | 14 | [RedTeamBench](projects/red-team/README.md) | Jailbreak and prompt-injection evaluation |
 | 15 | [SynthFactory](projects/synthetic-data/README.md) | Controlled privacy-filtered dataset generation |
 | 16 | [AWS GenAI Control Plane](projects/bedrock-sagemaker-genai/README.md) | Bedrock Converse and SageMaker inference |
+| 17 | [VisionRAG](projects/multimodal-rag/README.md) | Multimodal retrieval and reciprocal-rank fusion |
+| 18 | [GraphWeaver](projects/graph-rag/README.md) | Entity-aware multi-hop GraphRAG context |
+| 19 | [ToolMesh Agent](projects/toolmesh-agent/README.md) | Governed tool calling and auditable execution |
+| 20 | [ReviewPilot](projects/code-review-agent/README.md) | AST-based AI-assisted code review |
+| 21 | [DriftWatch](projects/driftwatch/README.md) | PSI-based feature drift and retraining signals |
 
 ## Repository contract
 
@@ -30,25 +35,14 @@ Every project contains:
 - a technical architecture and implementation runbook
 - a deterministic, credential-free executable demo
 - automated contract tests
-- explicit API semantics and acceptance metrics
-- production-hardening requirements
+- explicit production-hardening requirements
 
 ## Execute a project
 
 ```bash
-cd projects/hybrid-rag
+cd projects/multimodal-rag
 python demo.py
-python -m unittest -v test_demo.py
-```
-
-The AWS control plane uses an isolated FastAPI environment:
-
-```bash
-cd projects/bedrock-sagemaker-genai
-python -m venv .venv
-source .venv/bin/activate
-pip install -e '.[dev]'
-pytest -q
+python -m pytest -q
 ```
 
 ## Interactive portfolio
