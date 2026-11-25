@@ -25,5 +25,19 @@ def report(reference: list[float], current: list[float]) -> dict:
     level = "stable" if psi < .1 else "watch" if psi < .25 else "drifted"
     return {"psi": round(psi, 4), "status": level, "retrain_recommended": level == "drifted"}
 
+def report_csv(reference: str, current: str) -> dict:
+    """Evaluate comma-separated feature windows from an interactive form."""
+    windows = []
+    for label, raw in (("Reference", reference), ("Current", current)):
+        try:
+            values = [float(value.strip()) for value in raw.split(",")]
+        except ValueError:
+            raise ValueError(f"{label} window must contain comma-separated numbers.") from None
+        if not all(map(math.isfinite, values)):
+            raise ValueError(f"{label} window must contain only finite numbers.")
+        windows.append(values)
+    return report(*windows)
+
+
 if __name__ == "__main__":
     print(report([1, 2, 3, 4, 5] * 20, [7, 8, 9, 10] * 25))

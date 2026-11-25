@@ -1,7 +1,13 @@
-# DriftWatch Space draft
+---
+title: DriftWatch
+sdk: gradio
+app_file: app.py
+---
 
-DriftWatch compares a reference feature window with a current window using the population stability index (PSI). The demo uses synthetic numbers and needs no model checkpoint or credentials.
+# DriftWatch
 
-Use `report(reference, current)` in `demo.py` as the inference function for a Space. Accept two comma-separated numeric input windows, parse them as floats, and surface validation errors next to the inputs. Display the returned PSI, status, and retraining flag. Use `0,1,2,3,4` in both inputs for a stable example and `10,11,12,13,14` for the current window to demonstrate drift.
+Compare two feature windows using the population stability index (PSI). The app displays PSI, drift status, and a retraining flag. Use the sample inputs to see a stable or drifted result.
 
-The thresholds are illustrative. Validate them against historical data before using this signal for operational decisions.
+For deployment, copy this file to the Space as `README.md` and place `app.py` and `demo.py` alongside it. The examples use synthetic data and run without a model checkpoint.
+
+The thresholds are illustrative. Validate them against historical data before using the retraining flag in production.
