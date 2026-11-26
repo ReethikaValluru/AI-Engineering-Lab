@@ -1,10 +1,12 @@
 """DriftWatch: lightweight population stability monitoring for ML features."""
 import math
+from bisect import bisect_left
 
 def _distribution(values: list[float], cuts: list[float]) -> list[float]:
     counts = [0] * (len(cuts) + 1)
     for value in values:
-        idx = sum(value > cut for cut in cuts); counts[idx] += 1
+        # A value equal to a cut stays in the lower bin.
+        counts[bisect_left(cuts, value)] += 1
     total = max(len(values), 1)
     return [max(c / total, 1e-6) for c in counts]
 

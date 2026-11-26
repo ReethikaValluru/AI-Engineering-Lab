@@ -23,6 +23,7 @@ if __name__ == "__main__":
         examples=[
             ["0,1,2,3,4", "0,1,2,3,4"],
             ["0,1,2,3,4", "10,11,12,13,14"],
+            ["0,0,0,0,2", "0,0,0,0,2"],
         ],
         title="DriftWatch",
         description="Compare two comma-separated feature windows with the population stability index.",
