@@ -2,7 +2,18 @@
 
 from __future__ import annotations
 
+
 def run_pipeline(candidate_scores: list[float]) -> dict:
+    if not candidate_scores:
+        raise ValueError("Provide at least one candidate score.")
+    if any(
+        isinstance(score, bool)
+        or not isinstance(score, (int, float))
+        or not 0 <= score <= 1
+        for score in candidate_scores
+    ):
+        raise ValueError("Candidate scores must be finite numbers between 0 and 1.")
+
     baseline = [0.86, 0.89, 0.91, 0.88]
     candidate = sum(candidate_scores) / len(candidate_scores)
     baseline_mean = sum(baseline) / len(baseline)

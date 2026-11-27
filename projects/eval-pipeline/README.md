@@ -33,3 +33,9 @@ python -m unittest -v test_demo.py
 ## Production hardening
 
 Instrument OpenTelemetry spans, enforce schema validation and tenant isolation, add bounded retries and circuit breakers, persist versioned artifacts, execute adversarial evaluation, and gate promotion on statistical thresholds.
+
+## Score validation and portable demos
+
+Provide at least one finite numeric score between 0 and 1, inclusive. Invalid input raises `ValueError`.
+
+Run [the standalone notebook](kaggle_evalgate.ipynb) in Kaggle or use [the Space deployment files](hugging-face-space.md) for an interactive demo.
